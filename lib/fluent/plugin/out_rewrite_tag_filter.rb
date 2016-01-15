@@ -38,7 +38,8 @@ class Fluent::RewriteTagFilterOutput < Fluent::Output
 
     @rewriterules = []
     rewriterule_names = []
-    @hostname = `#{@hostname_command}`.chomp
+    require 'socket'
+    @hostname = "#{Socket.gethostname}"
 
     conf.keys.select{|k| k =~ /^rewriterule(\d+)$/}.sort_by{|i| i.sub('rewriterule', '').to_i}.each do |key|
       rewritekey,regexp,rewritetag = parse_rewriterule(conf[key])
